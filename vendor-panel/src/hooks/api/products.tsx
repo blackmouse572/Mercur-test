@@ -117,7 +117,7 @@ export const useProductVariant = (
     queryFn: async () => {
       const { product } = await fetchQuery(`/vendor/products/${productId}`, {
         method: "GET",
-        query: { fields: "*variants" },
+        query: { fields: ["*variants", query?.fields].join(",") },
       })
 
       const variant = product.variants.find(

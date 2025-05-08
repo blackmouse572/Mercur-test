@@ -693,7 +693,8 @@ export const UpdateProduct = z
     origin_country: z.string().nullish(),
     material: z.string().nullish(),
     metadata: z.record(z.unknown()).nullish(),
-    sales_channels: z.array(z.object({ id: z.string() })).optional()
+    sales_channels: z.array(z.object({ id: z.string() })).optional(),
+    shipping_profile_id: z.string().nullish(),
   })
   .strict()
 

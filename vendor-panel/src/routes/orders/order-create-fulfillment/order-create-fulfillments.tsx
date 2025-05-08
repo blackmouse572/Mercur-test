@@ -9,7 +9,7 @@ export function OrderCreateFulfillment() {
   const [searchParams] = useSearchParams()
   const requiresShipping = searchParams.get("requires_shipping") === "true"
 
-  const { order, isLoading, isError, error } = useOrder(id!)
+  const { order, isLoading, isError, error } = useOrder(id!, {})
 
   if (isError) {
     throw error

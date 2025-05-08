@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query"
 import { useDebouncedSearch } from "./use-debounced-search"
 
-type ComboboxExternalData = {
+export type ComboboxExternalData = {
   offset: number
   limit: number
   count: number

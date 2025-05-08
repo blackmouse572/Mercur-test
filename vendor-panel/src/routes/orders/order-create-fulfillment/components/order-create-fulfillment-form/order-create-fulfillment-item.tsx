@@ -35,7 +35,7 @@ export function OrderCreateFulfillmentItem({
     item.product_id,
     item.variant_id,
     {
-      fields: "*inventory,*inventory.location_levels",
+      fields: "*variants.inventory,*variants.inventory.location_levels",
     },
     {
       enabled: !!item.variant,
@@ -44,6 +44,9 @@ export function OrderCreateFulfillmentItem({
 
   const { availableQuantity, inStockQuantity } = useMemo(() => {
     if (!variant || !locationId) {
+      console.warn(
+        `Variant or locationId not found for itemId: ${item.id} and variantId: ${variant?.id}`
+      )
       return {}
     }
 
@@ -54,11 +57,21 @@ export function OrderCreateFulfillmentItem({
     )
 
     if (!locationInventory) {
+      console.warn(
+        `Location inventory not found for locationId: ${locationId} and variantId: ${variant.id}`
+      )
       return {}
     }
 
     const reservedQuantityForItem = itemReservedQuantitiesMap.get(item.id) ?? 0
 
+    console.debug(
+      `Location inventory for variantId: ${variant.id} and locationId: ${locationId}`,
+      locationInventory
+    )
+    console.debug(
+      `Reserved quantity for itemId: ${item.id} is ${reservedQuantityForItem}`
+    )
     return {
       availableQuantity:
         locationInventory.available_quantity + reservedQuantityForItem,

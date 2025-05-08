@@ -345,7 +345,6 @@ export function OrderCreateFulfillmentForm({
                             (o) => o?.id === shippingOptionId
                           )?.shipping_profile_id ===
                           item.variant?.product?.shipping_profile?.id
-                        console.log(item)
 
                         return (
                           <OrderCreateFulfillmentItem
