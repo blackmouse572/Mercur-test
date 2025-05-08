@@ -77,14 +77,11 @@ export const ProductDetailsHeader = ({
   }
 
   const variantStock =
-    product.variants?.find(({ id }) => id === variantId)?.inventory_quantity ||
+    product.variants?.find(({ id }) => id === variantId)?.inventory_quantity ??
     0
 
-  const variantHasPrice = product.variants?.find(({ id }) => id === variantId)
+  const variantHasPrice = !!product.variants?.find(({ id }) => id === variantId)
     ?.calculated_price
-    ? true
-    : false
-
   return (
     <div className="border rounded-sm p-5">
       <div className="flex justify-between">
@@ -125,7 +122,11 @@ export const ProductDetailsHeader = ({
         className="w-full uppercase mb-4 py-3 flex justify-center"
         size="large"
       >
-        {variantStock ? "ADD TO CART" : "OUT OF STOCK"}
+        {!variantStock
+          ? "OUT OF STOCK"
+          : !variantHasPrice
+          ? "NOT AVAILABLE"
+          : "ADD TO CART"}
       </Button>
       {/* Seller message */}
 
