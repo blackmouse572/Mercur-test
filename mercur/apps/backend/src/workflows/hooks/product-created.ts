@@ -6,6 +6,7 @@ import { StepResponse } from '@medusajs/workflows-sdk'
 
 import { AlgoliaEvents } from '../../modules/algolia/types'
 import { SELLER_MODULE } from '../../modules/seller'
+import sellerShippingProfile from '#/links/seller-shipping-profile'
 
 const getVariantInventoryItemIds = async (
   variantId: string,
@@ -23,6 +24,54 @@ const getVariantInventoryItemIds = async (
   return items.data
     .map((item) => item.inventory_items.map((ii) => ii.inventory_item_id))
     .flat(2)
+}
+
+const assignDefaultSellerShippingProfile = async (
+  container: MedusaContainer,
+  product_id: string,
+  seller_id: string
+) => {
+  const query = container.resolve(ContainerRegistrationKeys.QUERY)
+  const link = container.resolve(ContainerRegistrationKeys.LINK)
+
+  const {
+    data: [existingLink]
+  } = await query.graph({
+    entity: 'product_shipping_profile',
+    fields: ['*'],
+    filters: {
+      product_id
+    }
+  })
+
+  if (existingLink) {
+    return
+  }
+
+  const { data: shippingProfiles } = await query.graph({
+    entity: sellerShippingProfile.entryPoint,
+    fields: ['shipping_profile.id', 'shipping_profile.type'],
+    filters: {
+      seller_id
+    }
+  })
+
+  const [profile] = shippingProfiles.filter(
+    (relation) => relation.shipping_profile.type === 'default'
+  )
+
+  if (!profile) {
+    return
+  }
+
+  await link.create({
+    [Modules.PRODUCT]: {
+      product_id
+    },
+    [Modules.FULFILLMENT]: {
+      shipping_profile_id: profile.shipping_profile.id
+    }
+  })
 }
 
 createProductsWorkflow.hooks.productsCreated(
@@ -63,7 +112,15 @@ createProductsWorkflow.hooks.productsCreated(
         })
       }
     }
-
+    await Promise.all(
+      products.map((p) =>
+        assignDefaultSellerShippingProfile(
+          container,
+          p.id,
+          additional_data.seller_id as string
+        )
+      )
+    )
     await remoteLink.create(remoteLinks)
 
     await container.resolve(Modules.EVENT_BUS).emit({
