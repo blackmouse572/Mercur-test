@@ -11,6 +11,7 @@ import { SellerNewOrderEmailTemplate } from './seller-new-order'
 import { SellerOrderShippingEmailTemplate } from './seller-shipping-order'
 import { SellerTeamInviteEmailTemplate } from './seller-team-invite'
 import { SellerEmailVerifyEmailTemplate } from './seller-verify-email'
+import { InviteMemberTemplate } from './invite-member'
 
 export const emailTemplates = {
   buyerAccountCreatedEmailTemplate: BuyerAccountCreatedEmailTemplate,
@@ -25,5 +26,6 @@ export const emailTemplates = {
   sellerNewOrderEmailTemplate: SellerNewOrderEmailTemplate,
   sellerOrderShippingEmailTemplate: SellerOrderShippingEmailTemplate,
   sellerTeamInviteEmailTemplate: SellerTeamInviteEmailTemplate,
-  sellerVerifyEmailTemplate: SellerEmailVerifyEmailTemplate
+  sellerVerifyEmailTemplate: SellerEmailVerifyEmailTemplate,
+  inviteMemberTemplate: InviteMemberTemplate
 }
