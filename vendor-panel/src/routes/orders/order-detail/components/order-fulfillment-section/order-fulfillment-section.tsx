@@ -199,7 +199,10 @@ const Fulfillment = ({
   order,
   index,
 }: {
-  fulfillment: AdminOrderFulfillment
+  fulfillment: AdminOrderFulfillment & {
+    items: OrderLineItemDTO
+    shipping_option: HttpTypes.StoreShippingOption
+  }
   order: AdminOrder
   index: number
 }) => {
@@ -314,7 +317,7 @@ const Fulfillment = ({
   if (isError) {
     throw error
   }
-
+  console.log("Fullfillment", fulfillment)
   return (
     <Container className="divide-y p-0">
       <div className="flex items-center justify-between px-6 py-4">

@@ -141,10 +141,9 @@ const useActivityItems = (order: AdminOrder): Activity[] => {
   const missingLineItemIds = getMissingLineItemIds(order, rmaChanges)
   const { order_items: removedLineItems = [] } = useOrderLineItems(
     order.id,
-
     {
       fields: "+quantity",
-      item_id: missingLineItemIds,
+      // item_id: missingLineItemIds,
     },
     {
       enabled: !!rmaChanges.length,

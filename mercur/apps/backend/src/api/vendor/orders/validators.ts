@@ -106,5 +106,6 @@ export const VendorOrderCreateShipment = z.object({
         label_url: z.string()
       })
     )
-    .optional()
+    .optional(),
+  no_notification: z.boolean().optional()
 })

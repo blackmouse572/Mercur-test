@@ -243,7 +243,13 @@ export const useCancelOrderFulfillment = (
 ) => {
   return useMutation({
     mutationFn: (payload: { no_notification?: boolean }) =>
-      sdk.admin.order.cancelFulfillment(orderId, fulfillmentId, payload),
+      fetchQuery(
+        `/vendor/orders/${orderId}/fulfillments/${fulfillmentId}/cancel`,
+        {
+          method: "POST",
+          body: payload,
+        }
+      ),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.all,
