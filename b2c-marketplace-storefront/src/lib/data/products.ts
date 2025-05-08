@@ -59,16 +59,7 @@ export const listProducts = async ({
   const headers = {
     ...(await getAuthHeaders()),
   }
-  console.log("Get list products with args", {
-    category_id,
-    collection_id,
-    limit,
-    offset,
-    region_id: region?.id,
-    fields:
-      "*variants.calculated_price,+variants.inventory_quantity,*seller,*variants,*seller.products",
-    ...queryParams,
-  })
+
   return sdk.client
     .fetch<{
       products: HttpTypes.StoreProduct[]
