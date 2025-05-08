@@ -308,7 +308,14 @@ export const useMarkOrderFulfillmentAsDelivered = (
   >
 ) => {
   return useMutation({
-    mutationFn: () => sdk.admin.order.markAsDelivered(orderId, fulfillmentId),
+    // /admin/orders/order_01JTR1DEK82NRMSQX51S5PPWHY/fulfillments/ful_01JTR1G80E07MDRMF4HEZENTAY/mark-as-delivered
+    mutationFn: () =>
+      fetchQuery(
+        `/vendor/orders/${orderId}/fulfillments/${fulfillmentId}/mark-as-delivered`,
+        {
+          method: "POST",
+        }
+      ),
     onSuccess: (data: any, variables: any, context: any) => {
       queryClient.invalidateQueries({
         queryKey: ordersQueryKeys.all,
