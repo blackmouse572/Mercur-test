@@ -15,7 +15,8 @@ export const VendorGetRequestsParams = createFindParams({
       'product_category',
       'product',
       'review_remove',
-      'product_type'
+      'product_type',
+      'product_tag'
     ])
     .optional(),
   status: z.enum(['accepted', 'rejected', 'pending']).optional()
@@ -144,6 +145,34 @@ const ProductTypeRequest = z.object({
     metadata: z.record(z.unknown()).nullish()
   })
 })
+/**
+ * @schema ProductTagRequest
+ * type: object
+ * required:
+ *   - type
+ *   - data
+ * properties:
+ *   type:
+ *     type: string
+ *     description: The type of the request
+ *     enum: [product_tag]
+ *   data:
+ *     type: object
+ *     properties:
+ *       value:
+ *         type: string
+ *         description: The product tag value
+ *       metadata:
+ *         type: object
+ *         description: The product tag metadata
+ */
+const ProductTagRequest = z.object({
+  type: z.literal('product_tag'),
+  data: z.object({
+    value: z.string(),
+    metadata: z.record(z.unknown()).nullish()
+  })
+})
 
 /**
  * @schema VendorCreateRequest
@@ -159,6 +188,7 @@ const ProductTypeRequest = z.object({
  *       - $ref: "#/components/schemas/ProductCategoryRequest"
  *       - $ref: "#/components/schemas/ReviewRemoveRequest"
  *       - $ref: "#/components/schemas/ProductTypeRequest"
+ *       - $ref: "#/components/schemas/ProductTagRequest"
  */
 export type VendorCreateRequestType = z.infer<typeof VendorCreateRequest>
 export const VendorCreateRequest = z.object({
@@ -166,7 +196,8 @@ export const VendorCreateRequest = z.object({
     ProductCategoryRequest,
     ProductCollectionRequest,
     ReviewRemoveRequest,
-    ProductTypeRequest
+    ProductTypeRequest,
+    ProductTagRequest
   ])
 })
 
@@ -210,6 +241,7 @@ const UpdateProductCategoryRequest = z.object({
  *       - $ref: "#/components/schemas/ProductCategoryRequest"
  *       - $ref: "#/components/schemas/ReviewRemoveRequest"
  *       - $ref: "#/components/schemas/ProductTypeRequest"
+ *       - $ref: "#/components/schemas/ProductTagRequest"
  */
 export type VendorUpdateRequestDataType = z.infer<
   typeof VendorUpdateRequestData
@@ -219,6 +251,7 @@ export const VendorUpdateRequestData = z.object({
     UpdateProductCategoryRequest,
     UpdateProductCollectionRequest,
     UpdateReviewRemoveRequest,
-    ProductTypeRequest
+    ProductTypeRequest,
+    ProductTagRequest
   ])
 })

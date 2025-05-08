@@ -24912,6 +24912,17 @@ export interface ProductCollectionRequest {
   };
 }
 
+export interface ProductTagRequest {
+  /** The type of the request */
+  type: "product_tag";
+  data: {
+    /** The product tag value */
+    value?: string;
+    /** The product tag metadata */
+    metadata?: object;
+  };
+}
+
 export interface ProductTypeRequest {
   /** The type of the request */
   type: "product_type";
@@ -25546,13 +25557,6 @@ export type VendorCreateProduct = CreateProduct & {
   additional_data?: Record<string, any>;
 };
 
-export interface VendorCreateProductTag {
-  /** The title of the product tag. */
-  value: string;
-  /** Product tag metadata. */
-  metadata?: object;
-}
-
 export interface VendorCreatePromotion {
   /** The code of the promotion. */
   code?: string;
@@ -25583,7 +25587,12 @@ export interface VendorCreatePromotionRule {
 
 export interface VendorCreateRequest {
   /** The resource to be created by request */
-  request: ProductCollectionRequest | ProductCategoryRequest | ReviewRemoveRequest | ProductTypeRequest;
+  request:
+    | ProductCollectionRequest
+    | ProductCategoryRequest
+    | ReviewRemoveRequest
+    | ProductTypeRequest
+    | ProductTagRequest;
 }
 
 export interface VendorCreateReservation {
@@ -28767,7 +28776,12 @@ export interface VendorUpdatePromotion {
 
 export interface VendorUpdateRequestData {
   /** The resource to be updated */
-  request: ProductCollectionRequest | ProductCategoryRequest | ReviewRemoveRequest | ProductTypeRequest;
+  request:
+    | ProductCollectionRequest
+    | ProductCategoryRequest
+    | ReviewRemoveRequest
+    | ProductTypeRequest
+    | ProductTagRequest;
 }
 
 export interface VendorUpdateReservation {
@@ -53770,7 +53784,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** Comma-separated fields to include in the response. */
         fields?: string;
         /** Filter by request type */
-        type?: "product" | "product_collection" | "product_category" | "seller" | "review_remove" | "product_type";
+        type?:
+          | "product"
+          | "product_collection"
+          | "product_category"
+          | "seller"
+          | "review_remove"
+          | "product_type"
+          | "product_tag";
         /** Filter by request status */
         status?: "pending" | "rejected" | "accepted";
       },
@@ -60271,40 +60292,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "GET",
         query: query,
         secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Creates new product tag
-     *
-     * @tags Product
-     * @name VendorCreateProductTag
-     * @summary Create product tag
-     * @request POST:/vendor/product-tags
-     * @secure
-     */
-    vendorCreateProductTag: (
-      data: VendorCreateProductTag,
-      query?: {
-        /** Comma-separated fields to include in the response. */
-        fields?: string;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        {
-          /** A product tag object with its properties */
-          product_tag?: VendorProductTag;
-        },
-        any
-      >({
-        path: `/vendor/product-tags`,
-        method: "POST",
-        query: query,
-        body: data,
-        secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),

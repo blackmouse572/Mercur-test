@@ -26,24 +26,3 @@ export const VendorGetProductTagsParams = createFindParams({
 })
   .merge(VendorGetProductTagsParamsFields)
   .merge(applyAndAndOrOperators(VendorGetProductTagsParamsFields))
-
-/**
- * @schema VendorCreateProductTag
- * type: object
- * required:
- *   - value
- * properties:
- *   value:
- *     type: string
- *     description: The title of the product tag.
- *   metadata:
- *     type: object
- *     description: Product tag metadata.
- */
-export type VendorCreateProductTagType = z.infer<typeof VendorCreateProductTag>
-export const VendorCreateProductTag = z
-  .object({
-    value: z.string(),
-    metadata: z.record(z.unknown()).nullish()
-  })
-  .strict()
