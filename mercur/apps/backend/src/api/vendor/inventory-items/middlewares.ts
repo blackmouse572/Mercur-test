@@ -21,7 +21,7 @@ import {
   VendorCreateInventoryLocationLevel,
   VendorGetInventoryItemsParams,
   VendorUpdateInventoryItem,
-  VendorUpdateInventoryLevelType
+  VendorUpdateInventoryLevel,
 } from './validators'
 
 export const vendorInventoryItemsMiddlewares: MiddlewareRoute[] = [

@@ -5,6 +5,7 @@ import { storeOrderReturnRequestsMiddlewares } from './return-request/middleware
 import { storeReviewMiddlewares } from './reviews/middlewares'
 import { storeSellerMiddlewares } from './seller/middlewares'
 import { storeShippingOptionRoutesMiddlewares } from './shipping-options/middlewares'
+import { storeOrderSetMiddlewares } from './order-set/middlewares'
 
 export const storeMiddlewares: MiddlewareRoute[] = [
   {
@@ -19,5 +20,6 @@ export const storeMiddlewares: MiddlewareRoute[] = [
   ...storeOrderReturnRequestsMiddlewares,
   ...storeReviewMiddlewares,
   ...storeSellerMiddlewares,
-  ...storeShippingOptionRoutesMiddlewares
+  ...storeShippingOptionRoutesMiddlewares,
+  ...storeOrderSetMiddlewares
 ]
