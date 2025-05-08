@@ -8,11 +8,13 @@ import { Combobox } from "../../../../../components/inputs/combobox"
 import { RouteDrawer, useRouteModal } from "../../../../../components/modals"
 import { KeyboundForm } from "../../../../../components/utilities/keybound-form"
 import { useUpdateProduct } from "../../../../../hooks/api/products"
-import { useComboboxData } from "../../../../../hooks/use-combobox-data"
-import { sdk } from "../../../../../lib/client"
+import {
+  ComboboxExternalData,
+  useComboboxData,
+} from "../../../../../hooks/use-combobox-data"
+import { fetchQuery, sdk } from "../../../../../lib/client"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { se } from "date-fns/locale"
 import { useEffect } from "react"
 
 type ProductShippingProfileFormProps = {
@@ -33,11 +35,20 @@ export const ProductShippingProfileForm = ({
 
   const shippingProfiles = useComboboxData({
     queryKey: ["shipping_profiles"],
-    queryFn: (params) => sdk.admin.shippingProfile.list(params),
+    // sdk.admin.shippingProfile.list(params),
+    queryFn: (params) =>
+      fetchQuery<
+        ComboboxExternalData & {
+          shipping_profiles: HttpTypes.AdminShippingProfileResponse[]
+        }
+      >("/vendor/shipping-profiles", {
+        method: "GET",
+        query: params,
+      }),
     getOptions: (data) =>
-      data.shipping_profiles.map((shippingProfile) => ({
-        label: shippingProfile.name,
-        value: shippingProfile.id,
+      data.shipping_profiles.map(({ shipping_profile }) => ({
+        label: shipping_profile.name,
+        value: shipping_profile.id,
       })),
   })
 

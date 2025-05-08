@@ -12,12 +12,11 @@ import { ProductVariantSection } from "./components/product-variant-section"
 
 import { useDashboardExtension } from "../../../extensions"
 import { ProductShippingProfileSection } from "./components/product-shipping-profile-section"
-// import { ProductShippingProfileSection } from './components/product-shipping-profile-section';
 
 export const ProductDetail = () => {
   const { id } = useParams()
   const { product, isLoading, isError, error } = useProduct(id!, {
-    fields: "*variants.inventory_items,*categories",
+    fields: "*variants.inventory_items,*categories,*shipping_profile",
   })
 
   const { getWidgets } = useDashboardExtension()
@@ -52,7 +51,7 @@ export const ProductDetail = () => {
         <ProductVariantSection product={product} />
       </TwoColumnPage.Main>
       <TwoColumnPage.Sidebar>
-        {/* <ProductShippingProfileSection product={product} /> */}
+        <ProductShippingProfileSection product={product} />
         <ProductOrganizationSection product={product} />
         <ProductAttributeSection product={product} />
       </TwoColumnPage.Sidebar>
