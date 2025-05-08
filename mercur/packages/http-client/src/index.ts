@@ -1076,7 +1076,8 @@ export interface AdminCreateFulfillment {
     country_code?: string;
     /**
      * province
-     * The delivery address's province.
+     * The delivery address's ISO 3166-2 province code. Must be lower-case.
+     * @example "us-ca"
      */
     province?: string;
     /**
@@ -2076,7 +2077,8 @@ export interface AdminCreateTaxRegion {
   country_code: string;
   /**
    * province_code
-   * The tax region's province code.
+   * The tax region's ISO 3166-2 province code. Must be lower-case.
+   * @example "us-ca"
    */
   province_code?: string;
   /**
@@ -2383,7 +2385,8 @@ export interface AdminCustomerAddress {
   country_code: string;
   /**
    * province
-   * The address's province.
+   * The address's lower-case ISO 3166-2 province code.
+   * @example "us-ca"
    */
   province: string;
   /**
@@ -3870,7 +3873,8 @@ export interface AdminFulfillmentAddress {
   country_code: string;
   /**
    * province
-   * The address's province.
+   * The address's lower-case ISO 3166-2 province code.
+   * @example "us-ca"
    */
   province: string;
   /**
@@ -4173,7 +4177,8 @@ export interface AdminGeoZone {
   country_code: string;
   /**
    * province_code
-   * The geo zone's province code.
+   * The geo zone's lower-case ISO 3166-2 province code.
+   * @example "us-ca"
    */
   province_code: string;
   /**
@@ -4809,7 +4814,8 @@ export interface AdminOrderAddress {
   country?: AdminRegionCountry;
   /**
    * province
-   * The address's province.
+   * The address's lower-case ISO 3166-2 province code.
+   * @example "us-ca"
    */
   province?: string;
   /**
@@ -9297,7 +9303,8 @@ export interface AdminStockLocationAddress {
   postal_code: string;
   /**
    * province
-   * The address's province.
+   * The address's lower-case ISO 3166-2 province code.
+   * @example "us-ca"
    */
   province: string;
 }
@@ -9592,7 +9599,8 @@ export interface AdminTaxRegion {
   country_code: string;
   /**
    * province_code
-   * The tax region's province code.
+   * The tax region's lower-case ISO 3166-2 province code.
+   * @example "us-ca"
    */
   province_code: string;
   /** The tax region's metadata, can hold custom key-value pairs. */
@@ -9766,7 +9774,8 @@ export interface AdminUpdateDraftOrder {
     country_code?: string;
     /**
      * province
-     * The shipping address's province.
+     * The shipping address's ISO 3166-2 province code. Must be lower-case.
+     * @example "us-ca"
      */
     province?: string;
     /**
@@ -9822,7 +9831,8 @@ export interface AdminUpdateDraftOrder {
     country_code?: string;
     /**
      * province
-     * The billing address's province.
+     * The billing address's ISO 3166-2 province code. Must be lower-case.
+     * @example "us-ca"
      */
     province?: string;
     /**
@@ -9969,7 +9979,8 @@ export interface AdminUpdateOrder {
     country_code?: string;
     /**
      * province
-     * The address's province.
+     * The address's ISO 3166-2 province code. Must be lower-case.
+     * @example "us-ca"
      */
     province?: string;
     /**
@@ -10025,7 +10036,8 @@ export interface AdminUpdateOrder {
     country_code?: string;
     /**
      * province
-     * The address's province.
+     * The address's ISO 3166-2 province code. Must be lower-case.
+     * @example "us-ca"
      */
     province?: string;
     /**
@@ -10461,7 +10473,8 @@ export interface AdminUpdateStockLocation {
     postal_code?: string;
     /**
      * province
-     * The address's province.
+     * The address's ISO 3166-2 province code. Must be lower-case.
+     * @example "us-ca"
      */
     province?: string;
   };
@@ -10569,7 +10582,8 @@ export interface AdminUpdateTaxRate {
 export interface AdminUpdateTaxRegion {
   /**
    * province_code
-   * The tax region's province code.
+   * The tax region's ISO 3166-2 province code. Must be lower-case.
+   * @example "us-ca"
    */
   province_code?: string;
   /** The tax region's metadata, can hold custom key-value pairs. */
@@ -10646,7 +10660,8 @@ export interface AdminUpsertStockLocationAddress {
   postal_code?: string;
   /**
    * province
-   * The address's province.
+   * The address's ISO 3166-2 province code. Must be lower-case.
+   * @example "us-ca"
    */
   province?: string;
 }
@@ -12106,7 +12121,8 @@ export interface BaseOrderAddress {
   country_code?: string;
   /**
    * province
-   * The address's province.
+   * The address's lower-case ISO 3166-2 province code.
+   * @example "US-CA"
    */
   province?: string;
   /**
@@ -14032,7 +14048,8 @@ export interface CreateAddress {
   country_code?: string;
   /**
    * province
-   * The address's province.
+   * The address's ISO 3166-2 province code. Must be lower-case.
+   * @example "us-ca"
    */
   province?: string;
   /**
@@ -14671,7 +14688,8 @@ export interface OrderAddress {
   country_code?: string;
   /**
    * province
-   * The address's province.
+   * The address's lower-case ISO 3166-2 province code.
+   * @example "us-ca"
    */
   province?: string;
   /**
@@ -16355,7 +16373,8 @@ export interface StoreCartAddress {
   country_code?: string;
   /**
    * province
-   * The address's province.
+   * The address's lower-case ISO 3166-2 province code.
+   * @example "us-ca"
    */
   province?: string;
   /**
@@ -17471,7 +17490,8 @@ export interface StoreCustomerAddress {
   country_code: string;
   /**
    * province
-   * The address's province.
+   * The address's lower-case ISO 3166-2 province code.
+   * @example "us-ca"
    */
   province: string;
   /**
@@ -17821,7 +17841,8 @@ export interface StoreOrderAddress {
   country?: StoreRegionCountry;
   /**
    * province
-   * The address's province.
+   * The address's lower-case ISO 3166-2 province code.
+   * @example "us-ca"
    */
   province?: string;
   /**
@@ -24175,7 +24196,8 @@ export interface UpdateAddress {
   country_code?: string;
   /**
    * province
-   * The address's province.
+   * The address's ISO 3166-2 province code. Must be lower-case.
+   * @example "us-ca"
    */
   province?: string;
   /**
@@ -34990,7 +35012,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         city?: string | string[];
         /** Filter by a currency code. */
         country_code?: string | string[];
-        /** Filter by a province. */
+        /** Filter by an ISO 3166-2 province code. Must be lower-case. */
         province?: string | string[];
         /** Filter by a postal code. */
         postal_code?: string | string[];
@@ -35102,7 +35124,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         country_code: string;
         /**
          * province
-         * The address's province.
+         * The address's ISO 3166-2 province code. Must be lower-case.
+         * @example "us-ca"
          */
         province: string;
         /**
@@ -35236,7 +35259,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         country_code: string;
         /**
          * province
-         * The address's province.
+         * The address's ISO 3166-2 province code. Must be lower-case.
+         * @example "us-ca"
          */
         province: string;
         /**
@@ -36258,7 +36282,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           country_code: string;
           /**
            * province
-           * The billing address's province.
+           * The billing address's ISO 3166-2 province code. Must be lower-case.
+           * @example "us-ca"
            */
           province: string;
           /**
@@ -36313,7 +36338,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           country_code: string;
           /**
            * province
-           * The shipping address's province.
+           * The shipping address's ISO 3166-2 province code. Must be lower-case.
+           * @example "us-ca"
            */
           province: string;
           /**
@@ -37985,7 +38011,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
               type: string;
               /**
                * province_code
-               * The geo zone's province code.
+               * The geo zone's ISO 3166-2 province code. Must be lower-case.
+               * @example "us-ca"
                */
               province_code: string;
             }
@@ -38005,7 +38032,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
               type: string;
               /**
                * province_code
-               * The geo zone's province code.
+               * The geo zone's ISO 3166-2 province code. Must be lower-case.
+               * @example "us-ca"
                */
               province_code: string;
               /**
@@ -38030,7 +38058,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
               type: string;
               /**
                * province_code
-               * The geo zone's province code.
+               * The geo zone's ISO 3166-2 province code. Must be lower-case.
+               * @example "us-ca"
                */
               province_code: string;
               /**
@@ -38149,7 +38178,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
               country_code: string;
               /**
                * province_code
-               * The geo zone's province code.
+               * The geo zone's ISO 3166-2 province code. Must be lower-case.
+               * @example "us-ca"
                */
               province_code: string;
               /**
@@ -38179,7 +38209,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
               country_code: string;
               /**
                * province_code
-               * The geo zone's province code.
+               * The geo zone's ISO 3166-2 province code. Must be lower-case.
+               * @example "us-ca"
                */
               province_code: string;
               /**
@@ -38209,7 +38240,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
               country_code: string;
               /**
                * province_code
-               * The geo zone's province code.
+               * The geo zone's ISO 3166-2 province code. Must be lower-case.
+               * @example "us-ca"
                */
               province_code: string;
               /** The geo zone's postal expression or ZIP code. */
@@ -51933,7 +51965,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
               /** Filter by values less than or equal to this parameter. Useful for numbers and dates only. */
               $lte?: string;
             };
-        /** Filter by a province code. */
+        /** Filter by a ISO 3166-2 province code. Must be lower-case. */
         province_code?:
           | string
           | string[]
@@ -55471,7 +55503,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         country_code?: string;
         /**
          * province
-         * The address's province.
+         * The address's ISO 3166-2 province code. Must be lower-case.
+         * @example "us-ca"
          */
         province?: string;
         /**
@@ -55600,7 +55633,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         country_code?: string;
         /**
          * province
-         * The address's province.
+         * The address's ISO 3166-2 province code. Must be lower-case.
+         * @example "us-ca"
          */
         province?: string;
         /**
@@ -57648,7 +57682,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         region_id?: string;
         /**
          * province
-         * The province the products are being viewed from. This is useful to narrow down the tax context when calculating product variant prices with taxes.
+         * The lower-case ISO 3166-2 province code the products are being viewed from. This is useful to narrow down the tax context when calculating product variant prices with taxes.
+         * @example "us-ca"
          */
         province?: string;
         /** The ID of a sales channel to retrieve products in it. */
@@ -57742,7 +57777,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         country_code?: string;
         /**
          * province
-         * The province the product is being viewed from. This is useful to narrow down the tax context when calculating product variant prices with taxes.
+         * The lower-case ISO 3166-2 province code the product is being viewed from. This is useful to narrow down the tax context when calculating product variant prices with taxes.
+         * @example "us-ca"
          */
         province?: string;
         /**
