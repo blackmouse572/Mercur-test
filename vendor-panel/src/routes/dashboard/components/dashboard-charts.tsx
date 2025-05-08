@@ -225,8 +225,11 @@ export const DashboardCharts = () => {
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData}>
-                  <XAxis dataKey="date" />
-                  <YAxis />
+                  <XAxis
+                    dataKey="date"
+                    className="txt-small text-ui-fg-subtle"
+                  />
+                  <YAxis className="txt-small text-ui-fg-subtle" />
                   <CartesianGrid stroke="#333" vertical={false} />
                   <Tooltip content={<CustomTooltip />} />
                   {filters.map((item) => (
@@ -254,7 +257,7 @@ export const DashboardCharts = () => {
                   <Heading level="h3">Orders</Heading>
                   <div className="flex gap-2 items-center mt-2">
                     <div
-                      className="h-8 w-1"
+                      className="h-4 w-[0.25rem] rounded-full"
                       style={{
                         backgroundColor: filters.find(
                           (item) => item === "orders"
@@ -274,7 +277,7 @@ export const DashboardCharts = () => {
                   <Heading level="h3">Customers</Heading>
                   <div className="flex gap-2 items-center mt-2">
                     <div
-                      className="h-8 w-1"
+                      className="h-4 w-[0.25rem] rounded-full"
                       style={{
                         backgroundColor: filters.find(
                           (item) => item === "customers"
@@ -314,10 +317,13 @@ const CustomTooltip = ({
   if (active && payload && payload.length) {
     return (
       <div className="bg-ui-bg-component p-4 rounded-lg border border-ui-border-base">
-        <p className="font-bold">{`${label}`}</p>
+        <p className="font-bold txt-small-plus">{`${label}`}</p>
         <ul>
           {payload.map((item) => (
-            <li key={item.dataKey} className="flex gap-2 items-center">
+            <li
+              key={item.dataKey}
+              className="flex gap-2 items-center txt-small"
+            >
               <span className="capitalize" style={{ color: item.stroke }}>
                 {item.name}:
               </span>
