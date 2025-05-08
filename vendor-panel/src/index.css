@@ -47,10 +47,6 @@
   background: repeat;
 }
 
-.dark .rdp-selected {
-  background-color: rgba(255, 255, 255, 0.3) !important;
-}
-
 .dark .rdp-range_end {
   border-radius: 0 50% 50% 0 !important;
   background-image: none;
@@ -59,4 +55,13 @@
 .dark .rdp-range_start {
   border-radius: 50% 0 0 50% !important;
   background-image: none;
+}
+.rdp-selected {
+  @apply bg-ui-button-neutral rounded-none hover:bg-ui-button-neutral-hover;
+}
+.rdp-range_end.rdp-selected[aria-selected="true"] {
+  @apply bg-ui-button-inverted hover:bg-ui-button-inverted-hover;
+}
+.rdp-range_start.rdp-selected[aria-selected="true"] {
+  @apply bg-ui-button-inverted hover:bg-ui-button-inverted-hover;
 }
