@@ -12,7 +12,7 @@ export const sdk = new Medusa({
 
 // useful when you want to call the BE from the console and try things out quickly
 if (typeof window !== "undefined") {
-  ;(window as any).__sdk = sdk
+  ; (window as any).__sdk = sdk
 }
 
 export const importProductsQuery = async (file: File) => {
@@ -50,7 +50,7 @@ export const uploadFilesQuery = async (files: any[]) => {
     .catch(() => null)
 }
 
-export const fetchQuery = async (
+export const fetchQuery = async <T = any>(
   url: string,
   {
     method,
@@ -63,8 +63,8 @@ export const fetchQuery = async (
     query?: Record<string, string | number>
     headers?: { [key: string]: string }
   }
-) => {
-  const bearer = (await window.localStorage.getItem("medusa_auth_token")) || ""
+): Promise<T> => {
+  const bearer = window.localStorage.getItem("medusa_auth_token") ?? ""
   const params = Object.entries(query || {}).reduce(
     (acc, [key, value], index) => {
       if (value && value !== undefined) {
@@ -77,7 +77,11 @@ export const fetchQuery = async (
     },
     ""
   )
-  const response = await fetch(`${backendUrl}${url}${params && `?${params}`}`, {
+
+  const queryString = params ? `?${params}` : "";
+  const requestUrl = `${backendUrl}${url}${queryString}`;
+
+  const response = await fetch(requestUrl, {
     method: method,
     headers: {
       authorization: `Bearer ${bearer}`,
@@ -90,8 +94,8 @@ export const fetchQuery = async (
 
   if (!response.ok) {
     const errorData = await response.json()
-    throw new Error(errorData.message || "Nieznany błąd serwera")
+    throw new Error(errorData.message ?? "Unknown server error")
   }
 
-  return response.json()
+  return response.json() as Promise<T>
 }
