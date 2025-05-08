@@ -46,7 +46,7 @@ export function Button({
       )}
       {...props}
     >
-      {loading ? <LoaderIcon /> : children}
+      {loading ? <LoaderIcon className="animate-spin" /> : children}
     </button>
   )
 }

@@ -1,46 +1,17 @@
 "use client"
 
-import ErrorMessage from "@/components/molecules/ErrorMessage/ErrorMessage"
 import { setShippingMethod } from "@/lib/data/cart"
 import { calculatePriceForShippingOption } from "@/lib/data/fulfillment"
-import { convertToLocale } from "@/lib/helpers/money"
-import { CheckCircleSolid, Loader } from "@medusajs/icons"
-import { HttpTypes } from "@medusajs/types"
+import { CheckCircleSolid } from "@medusajs/icons"
 import { Heading, Text } from "@medusajs/ui"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/atoms"
-import { Modal } from "@/components/molecules"
 
-// Extended cart item product type to include seller
-type ExtendedStoreProduct = HttpTypes.StoreProduct & {
-  seller?: {
-    id: string
-    name: string
-  }
-}
-
-// Cart item type definition
-type CartItem = {
-  product?: ExtendedStoreProduct
-  // Include other cart item properties as needed
-}
-
-export type StoreCardShippingMethod = HttpTypes.StoreCartShippingOption & {
-  seller_id?: string
-  service_zone?: {
-    fulfillment_set: {
-      type: string
-    }
-  }
-}
-
-type ShippingProps = {
-  cart: Omit<HttpTypes.StoreCart, "items"> & {
-    items?: CartItem[]
-  }
-  availableShippingMethods: StoreCardShippingMethod[] | null
-}
+import { MissingModal } from "./MissingModal"
+import EditDelivery from "./EditDelivery"
+import DisplayDelivery from "./DisplayDelivery"
+import { ShippingProps } from "./types"
 
 const CartShippingMethodsSection: React.FC<ShippingProps> = ({
   cart,
@@ -110,7 +81,6 @@ const CartShippingMethodsSection: React.FC<ShippingProps> = ({
   const handleSubmit = () => {
     router.push(pathname + "?step=payment", { scroll: false })
   }
-
   const handleSetShippingMethod = async (id: string | null) => {
     setIsLoadingPrices(true)
     setError(null)
@@ -127,6 +97,11 @@ const CartShippingMethodsSection: React.FC<ShippingProps> = ({
     )
 
     setIsLoadingPrices(false)
+  }
+
+  // Convert to string for EditDelivery component
+  const wrappedHandleSetShippingMethod = (id: string) => {
+    handleSetShippingMethod(id)
   }
 
   useEffect(() => {
@@ -147,46 +122,23 @@ const CartShippingMethodsSection: React.FC<ShippingProps> = ({
   const handleEdit = () => {
     router.replace(pathname + "?step=delivery")
   }
-
   const missingSellers = cart.items
     ?.filter((item) =>
       missingShippingSellers.includes(item.product?.seller?.id!)
     )
     .map((item) => item.product?.seller?.name)
-
+    .filter((name): name is string => !!name)
   return (
     <div className="border p-4 rounded-sm bg-ui-bg-interactive">
-      {missingModal && (
-        <Modal
-          heading="Missing seller shipping option"
-          onClose={() => router.push("/cart")}
-        >
-          <div className="p-4">
-            <h2 className="heading-sm">
-              Some of the sellers in your cart do not have shipping options.
-            </h2>
-
-            <p className="text-md mt-3">
-              Please remove the{" "}
-              <span className="font-bold">
-                {missingSellers?.map(
-                  (seller, index) =>
-                    `${seller}${
-                      index === missingSellers.length - 1 ? " " : ", "
-                    }`
-                )}
-              </span>{" "}
-              items or contact{" "}
-              {missingSellers && missingSellers?.length > 1 ? "them" : "him"} to
-              get the shipping options.
-            </p>
-          </div>
-        </Modal>
-      )}
+      <MissingModal
+        missingSellers={missingSellers}
+        isOpen={missingModal}
+        onClose={() => setMissingModal(false)}
+      />
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
-          className="flex flex-row text-3xl-regular gap-x-2 items-baseline items-center"
+          className="flex flex-row text-3xl-regular gap-x-2 items-center"
         >
           {!isOpen && (cart.shipping_methods?.length ?? 0) > 0 && (
             <CheckCircleSolid />
@@ -202,115 +154,17 @@ const CartShippingMethodsSection: React.FC<ShippingProps> = ({
         )}
       </div>
       {isOpen ? (
-        <>
-          <div className="grid">
-            <div data-testid="delivery-options-container">
-              <div className="pb-8 md:pt-0 pt-2">
-                {Object.keys(groupedBySellerId).map((key) => {
-                  return (
-                    <div key={key}>
-                      <Heading level="h3" className="mb-2">
-                        {groupedBySellerId[key][0].seller_name}
-                      </Heading>
-                      <select
-                        onChange={(e) =>
-                          handleSetShippingMethod(e.target.value)
-                        }
-                        className="w-full border rounded-lg p-4"
-                        defaultValue={""}
-                      >
-                        <option hidden value="">
-                          Choose delivery option
-                        </option>
-                        {groupedBySellerId[key].map((option: any) => {
-                          return (
-                            <option key={option.id} value={option.id}>
-                              {option.name}
-                              {" - "}
-                              {option.price_type === "flat" ? (
-                                convertToLocale({
-                                  amount: option.amount!,
-                                  currency_code: cart?.currency_code,
-                                })
-                              ) : calculatedPricesMap[option.id] ? (
-                                convertToLocale({
-                                  amount: calculatedPricesMap[option.id],
-                                  currency_code: cart?.currency_code,
-                                })
-                              ) : isLoadingPrices ? (
-                                <Loader />
-                              ) : (
-                                "-"
-                              )}
-                            </option>
-                          )
-                        })}
-                      </select>
-                    </div>
-                  )
-                })}
-                {cart && (cart.shipping_methods?.length ?? 0) > 0 && (
-                  <div className="flex flex-col">
-                    {cart.shipping_methods?.map((method) => (
-                      <div
-                        key={method.id}
-                        className="mb-4 border rounded-md p-4"
-                      >
-                        <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                          Method
-                        </Text>
-                        <Text className="txt-medium text-ui-fg-subtle">
-                          {method.name}{" "}
-                          {convertToLocale({
-                            amount: method.amount!,
-                            currency_code: cart?.currency_code,
-                          })}
-                        </Text>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-          <div>
-            <ErrorMessage
-              error={error}
-              data-testid="delivery-option-error-message"
-            />
-            <Button
-              onClick={handleSubmit}
-              variant="tonal"
-              disabled={!cart.shipping_methods?.[0]}
-              loading={isLoadingPrices}
-            >
-              Continue to payment
-            </Button>
-          </div>
-        </>
+        <EditDelivery
+          groupedBySellerId={groupedBySellerId}
+          cart={cart}
+          calculatedPricesMap={calculatedPricesMap}
+          isLoadingPrices={isLoadingPrices}
+          onSetShippingMethod={handleSetShippingMethod}
+          onSubmit={handleSubmit}
+          error={error}
+        />
       ) : (
-        <div>
-          <div className="text-small-regular">
-            {cart && (cart.shipping_methods?.length ?? 0) > 0 && (
-              <div className="flex flex-col">
-                {cart.shipping_methods?.map((method) => (
-                  <div key={method.id} className="mb-4 border rounded-md p-4">
-                    <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                      Method
-                    </Text>
-                    <Text className="txt-medium text-ui-fg-subtle">
-                      {method.name}{" "}
-                      {convertToLocale({
-                        amount: method.amount!,
-                        currency_code: cart?.currency_code,
-                      })}
-                    </Text>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+        <DisplayDelivery cart={cart} />
       )}
     </div>
   )

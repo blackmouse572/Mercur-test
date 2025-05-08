@@ -41,7 +41,10 @@ export const CartAddressSection = ({
       : true
   )
 
-  const [message, formAction] = useActionState(setAddresses, sameAsBilling)
+  const [message, formAction, isPending] = useActionState(
+    setAddresses,
+    sameAsBilling
+  )
 
   useEffect(() => {
     if (!isAddress) {
@@ -78,16 +81,19 @@ export const CartAddressSection = ({
       >
         {isOpen ? (
           <div className="pb-8">
-            <ShippingAddress
-              customer={customer}
-              checked={sameAsBilling}
-              onChange={toggleSameAsBilling}
-              cart={cart}
-            />
+            <fieldset disabled={isPending}>
+              <ShippingAddress
+                customer={customer}
+                checked={sameAsBilling}
+                onChange={toggleSameAsBilling}
+                cart={cart}
+              />
+            </fieldset>
             <Button
               className="mt-6"
               data-testid="submit-address-button"
               variant="tonal"
+              loading={isPending}
             >
               Save
             </Button>
