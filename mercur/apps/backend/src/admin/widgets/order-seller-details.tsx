@@ -67,6 +67,34 @@ const OrderSellerDetails = ({ data }: DetailWidgetProps<AdminOrder>) => {
             </Link>
           }
         />
+        <SectionRow
+          title={'Email'}
+          value={
+            <div className="flex items-center gap-x-2 overflow-hidden">
+              <Text
+                size="small"
+                leading="compact"
+                className="text-ui-fg-subtle hover:text-ui-fg-base transition-fg truncate"
+              >
+                {seller?.seller?.email}
+              </Text>
+            </div>
+          }
+        />
+        <SectionRow
+          title={'Phone'}
+          value={
+            <div className="flex items-center gap-x-2 overflow-hidden">
+              <Text
+                size="small"
+                leading="compact"
+                className="text-ui-fg-subtle hover:text-ui-fg-base transition-fg truncate"
+              >
+                {seller?.seller?.phone}
+              </Text>
+            </div>
+          }
+        />
       </div>
       <div className="p-2">
         <JsonViewSection

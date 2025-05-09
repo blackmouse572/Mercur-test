@@ -19,12 +19,14 @@ const getReviews = async () => {
     ...(await getAuthHeaders()),
   }
 
-  const reviews = await sdk.client.fetch("/store/reviews", {
+  const reviewsRes = await sdk.client.fetch<{ reviews: Review[] }>("/store/reviews", {
     headers,
     method: "GET",
   })
 
-  return reviews as { reviews: Review[] }
+  const reviews = reviewsRes.reviews.filter(Boolean)
+
+  return { reviews }
 }
 
 const createReview = async (review: any) => {

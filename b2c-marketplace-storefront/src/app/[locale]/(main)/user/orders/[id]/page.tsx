@@ -3,10 +3,9 @@ import { retrieveCustomer } from "@/lib/data/customer"
 import { Avatar, Button, Card } from "@/components/atoms"
 import Link from "next/link"
 import { ArrowLeftIcon } from "@/icons"
-import { OrderProductListItem } from "@/components/cells"
+import { OrderProductListItem, OrderAddresses } from "@/components/cells"
 import { redirect } from "next/navigation"
 import { format } from "date-fns"
-import { OrderAddresses } from "@/components/cells"
 import { retrieveOrder } from "@/lib/data/orders"
 import { Chat } from "@/components/organisms/Chat/Chat"
 import { SellerProps } from "@/types/seller"
@@ -58,7 +57,10 @@ export default async function UserPage({
             <div className="flex items-center justify-between text-secondary border border-primary bg-component-secondary py-6 px-4 rounded-sm w-full ">
               <div className="flex items-center">
                 <h2 className="heading-sm uppercase text-secondary">
-                  Status: <span className="text-primary">{order.status}</span>
+                  Status:{" "}
+                  <span className="text-primary">
+                    {order.fulfillment_status}
+                  </span>
                 </h2>
               </div>
               <div className="flex justify-end">

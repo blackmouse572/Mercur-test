@@ -7,6 +7,7 @@ export default async function Page() {
   const user = await retrieveCustomer()
 
   const { reviews } = await getReviews()
+  console.log("reviews", reviews)
 
   if (!user) return <LoginForm />
 

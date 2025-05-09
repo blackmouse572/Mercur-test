@@ -18,12 +18,12 @@ export default async function Page() {
     if (!order.seller) return acc
 
     const hasReview = reviews.some(
-      (review: any) => review.seller?.id === order.seller.id
+      (review: any) => review.seller?.id === order.seller?.id
     )
 
     if (
       !hasReview &&
-      !acc.some((item) => item.seller?.id === order.seller.id)
+      !acc.some((item) => item.seller?.id === order.seller?.id)
     ) {
       acc.push({
         ...order,

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 import { useState } from "react"
 import { Review } from "@/lib/data/reviews"
 import { navigation } from "./navigation"
+import Image from "next/image"
 
 export const ReviewsToWrite = ({ reviews }: { reviews: Review[] }) => {
   const [showForm, setShowForm] = useState<string>("")
@@ -44,13 +45,22 @@ export const ReviewsToWrite = ({ reviews }: { reviews: Review[] }) => {
               className="flex flex-col gap-6 lg:grid lg:grid-cols-6 px-4"
               key={review.id}
             >
-              <div className="flex gap-2 max-lg:items-center lg:flex-col">
-                <img
-                  src={review.seller.photo}
-                  className="size-8 border border-base-primary rounded-xs"
-                />
-                <p className="label-md text-primary">{review.seller.name}</p>
-              </div>
+              {review.seller && (
+                <div className="flex gap-2 max-lg:items-center lg:flex-col">
+                  <Image
+                    width={40}
+                    height={40}
+                    alt={review.seller.name}
+                    src={
+                      review.seller.photo === ""
+                        ? "/images/placeholder.svg"
+                        : review.seller.photo
+                    }
+                    className="size-8 border border-base-primary rounded-full"
+                  />
+                  <p className="label-md text-primary">{review.seller.name}</p>
+                </div>
+              )}
               <div className="col-span-5 flex flex-col lg:flex-row justify-between lg:items-center gap-4">
                 <p className="text-md text-primary">
                   Write a review for this seller.
