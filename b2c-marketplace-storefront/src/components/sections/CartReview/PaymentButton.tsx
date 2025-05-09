@@ -1,13 +1,14 @@
 "use client"
 
 import ErrorMessage from "@/components/molecules/ErrorMessage/ErrorMessage"
-import { isManual, isStripe } from "../../../lib/constants"
+import { isManual, isStripe, isVnPay } from "../../../lib/constants"
 import { placeOrder } from "@/lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
 import { useElements, useStripe } from "@stripe/react-stripe-js"
 import React, { useState } from "react"
 import { Button } from "@/components/atoms"
 import { useRouter } from "next/navigation"
+import { retrieveOrder } from "@/lib/data/orders"
 
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart
@@ -36,6 +37,8 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
           data-testid={dataTestId}
         />
       )
+    case isVnPay(paymentSession?.provider_id):
+      return <VnPayPaymentButton notReady={notReady} cart={cart} />
     case isManual(paymentSession?.provider_id):
       return (
         <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
@@ -159,6 +162,52 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
     await placeOrder().catch((err) => {
       setErrorMessage(err.message !== "NEXT_REDIRECT" ? err.message : null)
     })
+  }
+
+  const handlePayment = () => {
+    onPaymentCompleted()
+  }
+
+  return (
+    <>
+      <Button disabled={notReady} onClick={handlePayment} className="w-full">
+        Place order
+      </Button>
+      <ErrorMessage
+        error={errorMessage}
+        data-testid="manual-payment-error-message"
+      />
+    </>
+  )
+}
+
+const VnPayPaymentButton = ({
+  notReady,
+  cart,
+}: {
+  notReady: boolean
+  cart: HttpTypes.StoreCart
+}) => {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const router = useRouter()
+
+  const onPaymentCompleted = async () => {
+    const data = await placeOrder()
+      .then((r) => r)
+      .catch((err) => {
+        setErrorMessage(err.message !== "NEXT_REDIRECT" ? err.message : null)
+        return null
+      })
+    if (data && data.order_set?.orders[0].id) {
+      const order = await retrieveOrder(data.order_set?.orders[0].id)
+      const paymentUrl = order.payment_collections?.[0].payments?.[0]?.data
+        ?.paymentUrl as string
+      if (paymentUrl) {
+        window.location.href = paymentUrl
+      }
+      console.log("order", order)
+    }
   }
 
   const handlePayment = () => {

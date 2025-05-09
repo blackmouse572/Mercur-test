@@ -2,7 +2,7 @@ import StripeConnectProvider from '../core/stripe-connect-provider'
 import { PaymentIntentOptions, PaymentProviderKeys } from '../types'
 
 class StripeConnectCardProviderService extends StripeConnectProvider {
-  static identifier = PaymentProviderKeys.CARD
+  static readonly identifier = PaymentProviderKeys.CARD
 
   constructor(_, options) {
     super(_, options)

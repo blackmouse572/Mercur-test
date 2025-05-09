@@ -68,6 +68,15 @@ module.exports = defineConfig({
             options: {
               apiKey: process.env.STRIPE_SECRET_API_KEY
             }
+          },
+          {
+            resolve: './src/modules/vnpay',
+            id: 'vnpay',
+            options: {
+              tmnCode: process.env.VNPAY_TMN_CODE,
+              secureSecret: process.env.VNPAY_SECURE_SECRET,
+              returnUrl: process.env.VNPAY_RETURN_URL,
+            }
           }
         ]
       }

@@ -328,13 +328,15 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
 
   // redirect(`/checkout`)
 }
-
+export type PlaceOrderOptions = {
+  shouldRedirect?: boolean
+}
 /**
  * Places an order for a cart. If no cart ID is provided, it will use the cart ID from the cookies.
  * @param cartId - optional - The ID of the cart to place an order for.
  * @returns The cart object if the order was successful, or null if not.
  */
-export async function placeOrder(cartId?: string) {
+export async function placeOrder(cartId?: string, options?: PlaceOrderOptions) {
   const id = cartId || (await getCartId())
 
   if (!id) {
@@ -345,22 +347,30 @@ export async function placeOrder(cartId?: string) {
     ...(await getAuthHeaders()),
   }
 
-  const cartRes: any = await sdk.store.cart
+  const cartRes = await sdk.store.cart
     .complete(id, {}, headers)
     .then(async (cartRes) => {
       const cartCacheTag = await getCacheTag("carts")
       revalidateTag(cartCacheTag)
-      return cartRes
+      return cartRes as unknown as HttpTypes.StoreCartResponse & {
+        order_set?: {
+          orders: HttpTypes.StoreOrder[]
+          cart: HttpTypes.StoreCart
+        }
+      }
     })
     .catch(medusaError)
 
   if (cartRes?.order_set) {
     removeCartId()
-    redirect(`/order/${cartRes?.order_set.orders[0].id}/confirmed`)
-    // return { orderId: cartRes?.order_set.orders[0].id }
   }
-
-  return cartRes.order_set.cart
+  if (!cartRes?.order_set) {
+    throw new Error("No order found when placing an order")
+  }
+  if (options?.shouldRedirect) {
+    redirect(`/order/${cartRes?.order_set.orders[0].id}/confirmed`)
+  }
+  return cartRes
 }
 
 /**

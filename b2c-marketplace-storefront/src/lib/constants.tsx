@@ -26,6 +26,14 @@ export const paymentInfoMap: Record<
     title: "Manual Payment",
     icon: <CreditCard />,
   },
+  "pp_card_stripe-connect": {
+    title: "Stripe connect",
+    icon: <CreditCard />,
+  },
+  "pp_vnpay-payment_vnpay": {
+    title: "VNPay",
+    icon: <CreditCard />,
+  },
   // Add more payment providers here
 }
 
@@ -38,6 +46,9 @@ export const isPaypal = (providerId?: string) => {
 }
 export const isManual = (providerId?: string) => {
   return providerId?.startsWith("pp_system_default")
+}
+export const isVnPay = (providerId?: string) => {
+  return providerId?.startsWith("pp_vnpay")
 }
 
 // Add currencies that don't need to be divided by 100
