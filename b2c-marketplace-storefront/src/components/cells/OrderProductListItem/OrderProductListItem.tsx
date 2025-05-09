@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
 import { Fragment } from "react"
+import { OrderProductListItemImage } from "./OrderProductListItemImage"
 
 export const OrderProductListItem = ({
   item,
@@ -17,8 +18,8 @@ export const OrderProductListItem = ({
   <Fragment>
     {withDivider && <Divider className="mt-4" />}
     <li className={cn("flex items-center", withDivider && "mt-4")}>
-      <div className="w-[66px] h-24 relative rounded-xs overflow-hidden">
-        <Image src={item.thumbnail} alt={item.title} fill objectFit="cover" />
+      <div className="size-24 relative rounded-xs overflow-hidden">
+        <OrderProductListItemImage item={item} />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-5 w-full px-4 sm:gap-4">
         <div className="sm:col-span-2">

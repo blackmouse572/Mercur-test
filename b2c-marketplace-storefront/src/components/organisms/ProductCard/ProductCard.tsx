@@ -1,6 +1,4 @@
 "use client"
-import Image from "next/image"
-
 import { Button } from "@/components/atoms"
 import { HeartIcon } from "@/icons"
 import tailwindConfig from "../../../../tailwind.config"
@@ -10,6 +8,7 @@ import { getSellerProductPrice } from "@/lib/helpers/get-seller-product-price"
 import { getProductPrice } from "@/lib/helpers/get-product-price"
 import { BaseHit, Hit } from "instantsearch.js"
 import clsx from "clsx"
+import { ProductCardImage } from "./ProductCardImage"
 
 export const ProductCard = ({
   product,
@@ -42,24 +41,7 @@ export const ProductCard = ({
         </div>
         <Link href={`/products/${product.handle}`}>
           <div className="overflow-hidden rounded-sm w-full h-full flex justify-center align-center ">
-            {product.thumbnail ? (
-              <Image
-                src={decodeURIComponent(product.thumbnail)}
-                alt={product.title}
-                width={360}
-                height={360}
-                className="object-cover aspect-square w-full object-center h-full lg:group-hover:-mt-14 transition-all duration-300 rounded-xs"
-                priority
-              />
-            ) : (
-              <Image
-                src="/images/placeholder.svg"
-                alt="Product placeholder"
-                width={100}
-                height={100}
-                className="flex margin-auto w-[100px] h-auto"
-              />
-            )}
+            <ProductCardImage product={product} />
           </div>
         </Link>
         <Link href={`/products/${product.handle}`}>
